@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101114">
+<title>Sweet Game 🍫</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍫%3C/text%3E%3C/svg%3E">
+<style>
+:root{color-scheme:dark;--bg:#101114;--panel:#191b21;--panel2:#22252d;--line:#30333d;--text:#f5f5f7;--muted:#a2a6b2;--blue:#4d8dff;--green:#3bc98b;--choc:#79513a;--choc2:#a87954;--danger:#e9a35c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#242632 0%,var(--bg) 55%);color:var(--text);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer;transition:transform .12s,background .15s,border-color .15s}button:active{transform:scale(.98)}
+.wrap{max-width:1000px;margin:auto;padding:28px 20px 50px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.brand-emoji{font-size:29px}.brand h1{font-size:clamp(25px,4vw,34px);letter-spacing:-1.1px;margin:0;font-weight:750}.gear{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:20px}.gear:hover{background:var(--panel2);border-color:#565b6a}
+.panel{background:rgba(25,27,33,.92);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,28px);box-shadow:0 18px 50px #0002}.setup{margin-bottom:20px}.versus{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}.side-choice{background:var(--panel2);border:1px solid var(--line);border-radius:15px;padding:16px;text-align:center;min-width:0}.side-choice strong{display:block;font-size:17px}.side-choice span{font-size:13px;color:var(--muted)}.vs{color:#858a98;font-size:13px;font-weight:800;letter-spacing:2px}.mode-select{width:100%;margin-top:7px;border:1px solid #454957;background:#17191f;color:var(--text);border-radius:10px;padding:9px 10px;outline:none}.start-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:20px}.starter{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:14px}.starter select{max-width:190px}.primary{border:0;border-radius:12px;background:var(--blue);color:#fff;font-weight:700;padding:12px 23px;box-shadow:0 6px 18px #4d8dff25}.primary:hover{background:#3479f3}.hidden{display:none!important}
+.game{margin-top:20px}.players{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}.player-card{border:1px solid var(--line);border-radius:16px;padding:15px 18px;background:#202229;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:background .2s,border-color .2s,box-shadow .2s}.player-card .name{font-weight:700}.player-card .status{font-size:12px;color:var(--muted)}.player-card.active.blue{background:#172944;border-color:var(--blue);box-shadow:0 0 0 1px #4d8dff33,0 0 24px #4d8dff17}.player-card.active.green{background:#142b24;border-color:var(--green);box-shadow:0 0 0 1px #3bc98b33,0 0 24px #3bc98b17}.dot{width:9px;height:9px;border-radius:50%;background:#626775;flex-shrink:0}.active.blue .dot{background:var(--blue)}.active.green .dot{background:var(--green)}
+.board-wrap{overflow-x:auto;padding:4px 0 8px}.board{display:grid;gap:7px;width:max-content;min-width:min(100%,300px);margin:0 auto}.cell{width:clamp(32px,6vw,58px);height:clamp(32px,6vw,58px);border:1px solid #a57b5e;border-radius:10px;background:linear-gradient(145deg,#986b4b,#68432e);box-shadow:inset 0 1px #ffffff20,0 3px 0 #39271d;color:#f7e4d3;display:grid;place-items:center;font-size:clamp(16px,2.7vw,25px);padding:0}.cell:hover:not(:disabled){background:linear-gradient(145deg,#b58560,#795038);border-color:#d3a27a;transform:translateY(-1px)}.cell:disabled{cursor:default;opacity:1}.cell.poison{background:linear-gradient(145deg,#453a3a,#2c2529);border-color:#8d555b;box-shadow:inset 0 1px #ffffff12,0 3px 0 #171316}.cell.poison:hover{border-color:#ff777f;background:#57383d}.empty{width:clamp(32px,6vw,58px);height:clamp(32px,6vw,58px)}.hint{text-align:center;color:var(--muted);font-size:13px;margin:15px 0 0}.message{margin-top:18px;border:1px solid var(--line);border-radius:13px;padding:13px 15px;background:#15171c;color:#d6d8df;text-align:center}.message.win{border-color:#3c9d78;background:#14271f;color:#c5f6df}.message.lose{border-color:#9a6b43;background:#2a211a;color:#ffdfbc}.game-actions{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}.secondary{border:1px solid var(--line);border-radius:11px;background:#22252d;color:var(--text);padding:10px 15px}.secondary:hover{background:#2c303a}.intro{text-align:center;color:var(--muted);font-size:14px;margin:18px 0 0}.modal-backdrop{position:fixed;inset:0;z-index:5;background:#0009;display:grid;place-items:center;padding:18px}.modal{width:min(100%,530px);max-height:90vh;overflow:auto;background:#191b21;border:1px solid #383b46;border-radius:22px;padding:24px;box-shadow:0 24px 80px #0008}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.modal h2{margin:0;font-size:23px}.close{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;width:38px;height:38px;font-size:21px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input{width:100%;padding:11px;border:1px solid #454957;background:#111318;border-radius:10px;color:var(--text)}.rules{border-top:1px solid var(--line);margin-top:22px;padding-top:18px}.rules h3{font-size:16px;margin:0 0 8px}.rules p,.rules li{font-size:14px;color:#c0c3cc}.rules ul{padding-left:20px}.modal-footer{display:flex;justify-content:flex-end;margin-top:22px}.footnote{text-align:center;color:#777d8b;font-size:12px;margin-top:22px}
+@media(max-width:560px){.wrap{padding:20px 13px 36px}.versus{gap:9px}.side-choice{padding:12px 7px}.side-choice strong{font-size:15px}.start-row{align-items:stretch;flex-direction:column}.start-row .primary{width:100%}.starter{justify-content:space-between}.players{gap:8px}.player-card{padding:12px 10px}.player-card .status{font-size:11px}.cell{border-radius:7px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><span class="brand-emoji" aria-hidden="true">🍫</span><h1>Sweet Game</h1></div>
+    <button class="gear" id="openSettings" aria-label="Einstellungen öffnen" title="Einstellungen">⚙</button>
+  </header>
+
+  <section class="panel setup" id="setup">
+    <div class="versus">
+      <div class="side-choice"><strong>Spieler</strong><span>Du spielst</span></div>
+      <div class="vs">VS</div>
+      <div class="side-choice"><strong id="opponentHeading">Computer</strong><select class="mode-select" id="mode" aria-label="Spielmodus"><option value="easy">Leicht</option><option value="medium">Mittel</option><option value="hard" selected>Schwer</option><option value="human">Anderer Spieler</option></select></div>
+    </div>
+    <div class="start-row">
+      <label class="starter" for="firstPlayer"><span>Wer beginnt?</span><select id="firstPlayer" class="mode-select"><option value="human">Du beginnst</option><option value="bot">Computer beginnt</option></select></label>
+      <button class="primary" id="startBtn">Spiel starten <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <section class="panel game hidden" id="game">
+    <div class="players">
+      <div class="player-card" id="player1"><div><div class="name" id="p1name">Du</div><div class="status" id="p1status">Wartet</div></div><span class="dot"></span></div>
+      <div class="player-card" id="player2"><div><div class="name" id="p2name">Computer</div><div class="status" id="p2status">Wartet</div></div><span class="dot"></span></div>
+    </div>
+    <div class="board-wrap"><div class="board" id="board" role="group" aria-label="Schokoladenspielfeld"></div></div>
+    <p class="hint">Wähle ein Stück. Alle Stücke darüber und rechts davon verschwinden.</p>
+    <div id="message" class="message" role="status" aria-live="polite">Viel Glück! 🍫</div>
+    <div class="game-actions"><button class="secondary" id="newGameBtn">Neues Spiel</button><button class="secondary" id="backBtn">Zurück zur Auswahl</button></div>
+  </section>
+  <p class="intro">Eine kleine Strategie. Ein Stück zu viel. 🍫</p>
+  <p class="footnote">Kostenlos · Läuft direkt in deinem Browser · Keine Anmeldung nötig</p>
+</div>
+
+<div class="modal-backdrop hidden" id="settingsBackdrop" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="modal">
+    <div class="modal-head"><h2 id="settingsTitle">Einstellungen</h2><button class="close" id="closeSettings" aria-label="Schließen">×</button></div>
+    <div class="fields">
+      <div class="field"><label for="widthInput">Breite (3–10)</label><input type="number" id="widthInput" min="3" max="10" value="7"></div>
+      <div class="field"><label for="heightInput">Höhe (3–10)</label><input type="number" id="heightInput" min="3" max="10" value="5"></div>
+    </div>
+    <div class="rules">
+      <h3>Spielregeln – kurz erklärt</h3>
+      <ul>
+        <li>Ihr seid abwechselnd am Zug und wählt ein Schokoladenstück.</li>
+        <li>Das gewählte Stück sowie alle Stücke darüber und rechts davon verschwinden.</li>
+        <li>Das Stück unten links ☠ ist vergiftet. Wer es anklickt, verliert sofort.</li>
+        <li>Ziel ist es, den Gegner dazu zu bringen, das Giftstück nehmen zu müssen.</li>
+      </ul>
+      <p><strong>Hinweis zum Modus „Schwer“:</strong> Der Computer durchsucht die erreichbaren Spielstellungen und wählt einen Zug nach der exakten Gewinn-/Verlustanalyse. Sehr große Spielfelder benötigen deutlich mehr Rechenleistung; die auswählbare Größe ist deshalb auf 10 × 10 begrenzt.</p>
+    </div>
+    <div class="modal-footer"><button class="primary" id="saveSettings">Speichern</button></div>
+  </div>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  let width = 7, height = 5, widths = [], current = 0, mode = 'hard', first = 'human', over = false, thinking = false;
+  const solverMemo = new Map();
+  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, Number.isFinite(n) ? n : lo));
+  const isHumanMode = () => mode === 'human';
+  const playerName = i => i === 0 ? (isHumanMode() ? 'Spieler 1' : 'Du') : (isHumanMode() ? 'Spieler 2' : 'Computer');
+  function setMessage(text, kind='') { $('message').textContent = text; $('message').className = 'message' + (kind ? ' '+kind : ''); }
+  function stateKey(state) { return state.join(','); }
+  function movesFor(state) {
+    const moves = [];
+    for (let r=0; r<state.length; r++) {
+      for (let c=0; c<state[r]; c++) {
+        if (r === state.length-1 && c === 0) continue; // poison is a losing click
+        const next = state.map((w,i) => i <= r ? Math.min(w,c) : w);
+        if (stateKey(next) !== stateKey(state)) moves.push({r,c,next});
+      }
+    }
+    return moves;
+  }
+  // Exact recursive win/loss solver for the current Chomp position.
+  function isWinning(state) {
+    const key = stateKey(state);
+    if (solverMemo.has(key)) return solverMemo.get(key);
+    for (const move of movesFor(state)) {
+      if (!isWinning(move.next)) { solverMemo.set(key,true); return true; }
+    }
+    solverMemo.set(key,false);
+    return false;
+  }
+  function bestHardMove() {
+    const candidates = movesFor(widths);
+    for (const move of candidates) {
+      if (!isWinning(move.next)) return move;
+    }
+    // If the position is already lost, delay defeat by removing the most pieces.
+    return candidates.sort((a,b) => removedCount(b)-removedCount(a))[0] || null;
+  }
+  function removedCount(move) {
+    return widths.reduce((sum,w,i) => sum + (i < move.next.length ? w - move.next[i] : 0),0);
+  }
+  function legalMoves() {
+    const arr=[];
+    for(let r=0;r<height;r++) for(let c=0;c<widths[r];c++) arr.push({r,c,next:widths.map((w,i)=>i<=r?Math.min(w,c):w)});
+    return arr;
+  }
+  function chooseBotMove() {
+    if (mode === 'hard') return bestHardMove();
+    const candidates = movesFor(widths);
+    if (!candidates.length) return null;
+    if (mode === 'easy') return candidates[Math.floor(Math.random()*candidates.length)];
+    // Medium: prefer moves that leave a compact board, but not an exact solver.
+    const scored = candidates.map(m => {
+      const remain = m.next.reduce((a,b)=>a+b,0);
+      const balance = Math.abs(m.next[0] - m.next[m.next.length-1]);
+      return {...m, score: remain + balance*0.25 + Math.random()*2.5};
+    }).sort((a,b)=>a.score-b.score);
+    return scored[0];
+  }
+  function renderBoard() {
+    const board=$('board');
+    board.innerHTML='';
+    board.style.gridTemplateColumns=`repeat(${width}, max-content)`;
+    for(let r=0;r<height;r++) {
+      for(let c=0;c<width;c++) {
+        if(c < widths[r]) {
+          const b=document.createElement('button');
+          const poison = r===height-1 && c===0;
+          b.className='cell'+(poison?' poison':'');
+          b.textContent=poison?'☠':'🍫';
+          b.setAttribute('aria-label',poison?'Vergiftetes Schokoladenstück':`Reihe ${r+1}, Spalte ${c+1}`);
+          b.title=poison?'Giftstück – wer es anklickt, verliert':'Schokoladenstück auswählen';
+          b.disabled=over || thinking;
+          b.addEventListener('click',()=>playMove(r,c));
+          board.appendChild(b);
+        } else {
+          const blank=document.createElement('span'); blank.className='empty'; blank.setAttribute('aria-hidden','true'); board.appendChild(blank);
+        }
+      }
+    }
+  }
+  function renderPlayers() {
+    for(let i=0;i<2;i++) {
+      const card=$('player'+(i+1));
+      card.className='player-card'+(!over && current===i?' active '+(i===0?'blue':'green'):'');
+      $('p'+(i+1)+'name').textContent=playerName(i);
+      $('p'+(i+1)+'status').textContent=over?(winner===i?'Gewonnen':'Verloren'):(!thinking && current===i?'Am Zug':(thinking && current===i?'Denkt nach…':'Wartet'));
+    }
+  }
+  let winner = null;
+  function render() { renderBoard(); renderPlayers(); }
+  function playMove(r,c) {
+    if(over || thinking || c>=widths[r]) return;
+    if(r===height-1 && c===0) {
+      over=true; winner=1-current; render();
+      setMessage(`${playerName(current)} hat das Giftstück erwischt. ${playerName(winner)} gewinnt!`, 'win');
+      return;
+    }
+    widths=widths.map((w,i)=>i<=r?Math.min(w,c):w);
+    current=1-current;
+    render();
+    if(!isHumanMode() && current===1) {
+      thinking=true; renderPlayers(); renderBoard(); setMessage('Der Computer überlegt …');
+      // Let the UI update before exact search begins.
+      window.setTimeout(() => {
+        const move=chooseBotMove();
+        thinking=false;
+        if(!move) { setMessage('Keine Züge mehr möglich.'); return; }
+        widths=move.next;
+        // The bot cannot click poison by design; switch back to the human.
+        current=0;
+        render();
+        setMessage(mode==='hard'?'Der Computer hat seinen Zug gemacht. Du bist wieder dran.':'Dein Zug! Wähle ein Stück.');
+      }, 30);
+    } else {
+      setMessage(`${playerName(current)} ist am Zug.`);
+    }
+  }
+  function startGame() {
+    mode=$('mode').value; first=$('firstPlayer').value;
+    widths=Array(height).fill(width);
+    current=first==='bot' && !isHumanMode()?1:0;
+    if(isHumanMode()) current=0;
+    over=false; thinking=false; winner=null; solverMemo.clear();
+    $('setup').classList.add('hidden'); $('game').classList.remove('hidden');
+    $('p1name').textContent=playerName(0); $('p2name').textContent=playerName(1);
+    setMessage(current===1?'Der Computer beginnt …':'Du bist dran. Viel Glück! 🍫');
+    render();
+    if(!isHumanMode() && current===1) {
+      thinking=true; renderPlayers(); renderBoard();
+      window.setTimeout(()=>{
+        const move=chooseBotMove(); thinking=false;
+        if(move) widths=move.next;
+        current=0; render(); setMessage('Der Computer hat begonnen. Du bist dran!');
+      },30);
+    }
+  }
+  function restart() { startGame(); }
+  $('mode').addEventListener('change',()=> {
+    const human=$('mode').value==='human';
+    $('opponentHeading').textContent=human?'Spieler 2':'Computer';
+    $('firstPlayer').disabled=human;
+    if(human) $('firstPlayer').value='human';
+  });
+  $('startBtn').addEventListener('click',startGame);
+  $('newGameBtn').addEventListener('click',restart);
+  $('backBtn').addEventListener('click',()=>{$('game').classList.add('hidden');$('setup').classList.remove('hidden');});
+  $('openSettings').addEventListener('click',()=>{
+    $('widthInput').value=width; $('heightInput').value=height; $('settingsBackdrop').classList.remove('hidden');
+  });
+  $('closeSettings').addEventListener('click',()=>$('settingsBackdrop').classList.add('hidden'));
+  $('settingsBackdrop').addEventListener('click',e=>{if(e.target===$('settingsBackdrop')) $('settingsBackdrop').classList.add('hidden');});
+  $('saveSettings').addEventListener('click',()=>{
+    width=clamp(parseInt($('widthInput').value,10),3,10);
+    height=clamp(parseInt($('heightInput').value,10),3,10);
+    $('widthInput').value=width; $('heightInput').value=height;
+    $('settingsBackdrop').classList.add('hidden');
+    if(!$('game').classList.contains('hidden')) startGame();
+  });
+  $('firstPlayer').addEventListener('change',()=>{});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape') $('settingsBackdrop').classList.add('hidden');});
+  $('firstPlayer').disabled=false;
+})();
+</script>
+</body>
+</html>
